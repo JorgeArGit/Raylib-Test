@@ -10,14 +10,17 @@ class Obstacle {
 	float speed;
 	int randomDirection;
 	int randomPosition;
+	Rectangle obstacleOne;
+	Rectangle obstacleTwo;
 
 public:
 	Obstacle() {
 
-		this->positionX = 760.0f;
-		this->speed = 100.0f;
-		this->randomDirection = (rand() % 2) * 2;
-		this->randomPosition = rand() % 51;
+		positionX = 760.0f;
+		speed = 100.0f;
+		randomDirection = (rand() % 2) * 2;
+		randomPosition = rand() % 51;
+		obstacleOne = { this->positionX, -250.0f + (randomDirection * randomPosition), 64, 360 };
 		
 	}
 
@@ -49,9 +52,11 @@ public:
 int screenWidth = 640;
 int screenHeight = 360;
 
-Vector2 rectanglePosition = { (float)50, (float)100 };
+
 
 //Player variables
+Vector2 rectanglePosition = { (float)50, (float)100 };
+Rectangle player = { rectanglePosition.x, rectanglePosition.y, 32, 32 };
 float gravity = 15.0f;
 float jumpVelocity = -400.0f;
 float velocity = 0.0f;
@@ -81,17 +86,15 @@ void gameTwo() {
 
 	while (WindowShouldClose() != true) {
 
-		
 
 		BeginDrawing();
 
 		ClearBackground(YELLOW);
-		DrawRectangle(rectanglePosition.x, rectanglePosition.y, 32, 32, BLACK);
+		DrawRectangleRec(player, BLACK);
+		
 		for (int i = 0; i < obstaclesContainer.size(); i++) {
 			obstaclesContainer[i].drawObstacle();
 		}
-
-
 
 		EndDrawing();
 
@@ -104,7 +107,6 @@ void gameTwo() {
 				obstaclesContainer.erase(obstaclesContainer.begin());
 		}
 
-		std::cout << obstaclesContainer.size();
 		
 	}
 
@@ -115,9 +117,10 @@ void gameTwo() {
 
 void jump() {
 
-	rectanglePosition.y += velocity * GetFrameTime();
+	player.y += velocity * GetFrameTime();
 	velocity += gravity;
 	if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) == true) velocity = jumpVelocity;
+	
 
 
 }
