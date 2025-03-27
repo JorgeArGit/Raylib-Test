@@ -20,32 +20,39 @@ public:
 		speed = 100.0f;
 		randomDirection = (rand() % 2) * 2;
 		randomPosition = rand() % 51;
-		obstacleOne = { this->positionX, -250.0f + (randomDirection * randomPosition), 64, 360 };
+		obstacleOne = {positionX, -250.0f + (randomDirection * randomPosition), 64, 360 };
+		obstacleTwo = {positionX, 250.0f + (randomDirection * randomPosition), 64, 360 };
 		
 	}
 
 	void updatePosition() {
 
-		this->positionX -= this->speed * GetFrameTime();
+		obstacleOne.x -= speed * GetFrameTime();
+		obstacleTwo.x -= speed * GetFrameTime();
 	}
 
 	std::string returnInfo() {
 
-		return std::to_string(this->speed) + "\n" + std::to_string(this->positionX);
+		return std::to_string(speed) + "\n" + std::to_string(positionX);
 	}
 
 	void drawObstacle() {
 
 		
-		DrawRectangle(this->positionX, -250 + (randomDirection * randomPosition), 64, 360, BLACK);
-		DrawRectangle(this->positionX, 250 + (randomDirection * randomPosition), 64, 360, BLACK);
+		DrawRectangleRec(obstacleOne, BLACK);
+		DrawRectangleRec(obstacleTwo, BLACK);
+		
 	}
 
 	int returnPosition() {
 		
-		return positionX;
+		return obstacleOne.x;
 	}
 
+	bool checkCollision(Rectangle player) {
+
+		if (CheckCollisionRecs(obstacleOne, player) == true || CheckCollisionRecs(obstacleTwo, player) == true) return true;
+	}
 
 };
 
@@ -94,6 +101,7 @@ void gameTwo() {
 		
 		for (int i = 0; i < obstaclesContainer.size(); i++) {
 			obstaclesContainer[i].drawObstacle();
+			
 		}
 
 		EndDrawing();
@@ -105,8 +113,15 @@ void gameTwo() {
 			obstaclesContainer[i].updatePosition();
 			if (obstaclesContainer[i].returnPosition() < -100)
 				obstaclesContainer.erase(obstaclesContainer.begin());
+			if (obstaclesContainer[i].checkCollision(player) == true) {
+				printf("collision");
+				CloseWindow();
+
+			}
+				
 		}
 
+		
 		
 	}
 
