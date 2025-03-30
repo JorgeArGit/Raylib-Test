@@ -5,6 +5,5 @@ void gameOne();
 	//MAIN FUNCTION
 		void gameTwo();
 	//SECONDARY FUNCTIONS
-		void jump();
-		void spawnObstacle();
+		
 //GAME TWO

@@ -137,6 +137,13 @@
   <ItemGroup>
     <ClInclude Include="header.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Media Include="..\..\..\Music\jumpSound.wav" />
+    <Media Include="..\..\..\Music\scoreSound.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\Pictures\bird.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
